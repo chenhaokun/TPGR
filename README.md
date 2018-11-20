@@ -1,3 +1,2 @@
 # TPGR
-python implementation of the TPGR
-we will release the code before november 30, 2018
+Python implementation of the TPGR, and we will release the code before november 30, 2018
