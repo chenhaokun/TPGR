@@ -1,0 +1,59 @@
+This code implements the TPGR model and a semi-synthetic recommendation environment.
+
+
+In run_time_tools.py, mf_with_bias() is to gain embeddings of items by utilizing the PMF model; clustering_vector_constructor() is to construct item representation in order to building the balanced hierarchical clustering tree(3 types as shown in the paper).
+In tpgr.py, class PRE_TRAIN, TREE and TPGR correspond to the rnn pretraining step, tree constructing step and model training step of the TPGR model.
+
+
+To run the model, one should make configuration in config file and run main.py.
+All parameters in config file are explained as follows.
+
+[META]
+ACTION_DIM: the embedding dimension of each action (item).
+STATISTIC_DIM: the dimension of the statistic information, in our implementation, there are 9 kinds of statistic information.
+REWARD_DIM: the dimension of the one-hot reward representation.
+MAX_TRAINING_STEP: the maximum training steps.
+DISCOUNT_FACTOR: discount factor for calculating cumulated reward.
+EPISODE_LENGTH: the number of recommendation interactions of each episode.
+LOG_STEP: the number of interval steps for printing evaluation logs when training the TPGR model.
+
+[ENV]
+RATING_FILE: the name of the original rating file, the rating files are stored in data/rating as default.
+ALPHA: to control the ratio of the sequential reward as described in the paper.
+BOUNDARY_RATING: to divide positive and negative rating.
+MAX_RATING: maximum rating in the rating file.
+MIN_RATING: minimum rating in the rating file.
+
+[TPGR]
+PRE_TRAINING: bool type (T/F), indicating whether conducting pretraining step.
+PRE_TRAINING_STEP: the number of pretraining steps.
+PRE_TRAINING_MASK_LENGTH: control the length of the historical rewards to recover when pretraining.
+PRE_TRAINING_SEQ_LENGTH: the number of recommendation interactions of each episode when pretraining.
+PRE_TRAINING_MAX_ITEM_NUM: the maximum number of items to be considered when pretraining.
+PRE_TRAINING_RNN_TRUNCATED_LENGTH: rnn truncated length.
+PRE_TRAINING_BATCH_SIZE: the batch size adopted in pre-training step.
+PRE_TRAINING_LOG_STEP: the number of interval steps for printing evaluation logs when pre-training.
+PRE_TRAINING_LEARNING_RATE: initialized learning rate for AdamOptimizer adopted in pre-training step.
+PRE_TRAINING_L2_FACTOR: l2 factor for l2 normalization adopted in pre-training step.
+
+CONSTRUCT_TREE: bool type (T/F), indicating whether conducting tree building step.
+CHILD_NUM: children number of the non-leaf nodes in the tree.
+CLUSTERING_TYPE: clustering type, PCA or KMEANS.
+CLUSTERING_VECTOR_TYPE: item representation type, RATING, VAE or MF.
+CLUSTERING_VECTOR_VERSION: the version of the item representation.
+
+RNN_MODEL_VS: the version of the pretrained rnn.
+TREE_VS: the version of the tree.
+
+LOAD_MODEL: bool type (T/F), indicating whether loading existing model.
+MODEL_LOAD_VS: the version of the model to load from.
+MODEL_SAVE_VS: the version of the model to save to.
+
+HIDDEN_UNITS: the hidden units list for each policy network, seperated by ','.
+SAMPLE_EPISODES_PER_BATCH: the number of sample episodes for each user in a training batch.
+SAMPLE_USERS_PER_BATCH: the number of sample users in a training batch.
+EVAL_BATCH_SIZE: batch size of episodes for evaluation.
+
+LEARNING_RATE: initialized learning rate for AdamOptimizer.
+L2_FACTOR: l2 factor for l2 normalization.
+ENTROPY_FACTOR: to control the smooth of the possibility distribution of the policy.
